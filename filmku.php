@@ -3,25 +3,24 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Data array asosiatif statis
 $data = [
     [
         "id" => 1,
-        "judul" => "Inception",
+        "judul" => "Nando Suka Mancing",
         "genre" => "Sci-Fi",
         "popularitas" => 90,
-        "rating" => 4.8,
-        "tahun_rilis" => 2010,
-        "pemeran_utama" => "Leonardo DiCaprio"
+        "rating" => 5.0,
+        "tahun_rilis" => 2024,
+        "pemeran_utama" => "Fernando Nopensa"
     ],
     [
         "id" => 2,
-        "judul" => "The Godfather",
+        "judul" => "Aldo Wong Ngapak",
         "genre" => "Drama",
         "popularitas" => 95,
         "rating" => 4.9,
-        "tahun_rilis" => 1972,
-        "pemeran_utama" => "Marlon Brando"
+        "tahun_rilis" => 2019,
+        "pemeran_utama" => "M. Aldo"
     ],
     [
         "id" => 3,
@@ -52,7 +51,6 @@ $data = [
     ]
 ];
 
-// Fungsi Quick Sort
 function quickSort($data, $key) {
     if (count($data) < 2) {
         return $data;
@@ -72,17 +70,15 @@ function quickSort($data, $key) {
     return array_merge(quickSort($left, $key), [$pivot], quickSort($right, $key));
 }
 
-// Filter berdasarkan genre
 function filterByGenre($data, $genre) {
     if (empty($genre)) {
-        return $data; // Jika tidak ada genre dipilih, kembalikan semua data
+        return $data;
     }
     return array_filter($data, function ($item) use ($genre) {
         return $item['genre'] === $genre;
     });
 }
 
-// Cek dan pilih metode pengurutan berdasarkan input
 if (isset($_GET['sort'])) {
     $sortKey = $_GET['sort'];
     $validSortKeys = ['rating', 'popularitas', 'tahun_rilis'];
@@ -94,7 +90,6 @@ if (isset($_GET['sort'])) {
     }
 }
 
-// Filter berdasarkan genre jika ada
 $selectedGenre = isset($_GET['genre']) ? $_GET['genre'] : '';
 $filteredData = filterByGenre($data, $selectedGenre);
 
@@ -107,7 +102,55 @@ $filteredData = filterByGenre($data, $selectedGenre);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Film</title>
     <style>
-        /* Tambahkan styling di sini */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f5;
+            color: #333;
+            margin: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #555;
+        }
+        form {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        label {
+            font-weight: bold;
+        }
+        select, button {
+            padding: 8px 12px;
+            margin: 0 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        p {
+            text-align: center;
+            font-size: 1.1em;
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -119,9 +162,8 @@ $filteredData = filterByGenre($data, $selectedGenre);
             <option value="Drama">Drama</option>
             <option value="Sci-Fi">Sci-Fi</option>
             <option value="Animation">Animation</option>
-            <!-- Tambahkan genre lainnya sesuai kebutuhan -->
         </select>
-        <input type="submit" value="Tampilkan">
+        <button type="submit">Tampilkan</button>
     </form>
 
     <form method="get" action="">
@@ -135,16 +177,17 @@ $filteredData = filterByGenre($data, $selectedGenre);
     </form>
 
     <h2>Daftar Film</h2>
-    <table border="1">
-        <tr>
-            <th>Judul</th>
-            <th>Genre</th>
-            <th>Popularitas</th>
-            <th>Rating</th>
-            <th>Tahun Rilis</th>
-            <th>Pemeran Utama</th>
-        </tr>
-
+    <table>
+        <thead>
+            <tr>
+                <th>Judul</th>
+                <th>Genre</th>
+                <th>Popularitas</th>
+                <th>Rating</th>
+                <th>Tahun Rilis</th>
+                <th>Pemeran Utama</th>
+            </tr>
+        </thead>
         <tbody>
             <?php if (!empty($filteredData)): ?>
                 <?php foreach ($filteredData as $item): ?>
